@@ -26,8 +26,8 @@ task :create_vm do
                                   :key_pair => ec2.key_pairs[key],
                                   :security_groups => security_group)
 
+  logger.debug("Waiting vm to initialize")
   while instance.status == :pending
-    logger.debug("Waiting vm to initialize")
     sleep(1)
   end
   logger.debug("Vm initialized")
@@ -88,7 +88,7 @@ def wait_for_ssh(instance, key_file)
     accessible_trough_ssh = proc do
       begin
         Timeout::timeout(5) do
-        system("ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no -i #{key_file} ubuntu@#{instance.dns_name} true")
+        run_locally("ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no -i #{key_file} ubuntu@#{instance.dns_name} true")
         end
       rescue
         false
@@ -96,6 +96,6 @@ def wait_for_ssh(instance, key_file)
     end
 
   while !accessible_trough_ssh.call
-    sleep(1)
+    sleep(5)
   end
 end
