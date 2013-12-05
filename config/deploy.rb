@@ -67,6 +67,7 @@ def install(instance)
   
   deploy.cold
   
+  sudo "aptitude update -y"
   sudo "apt-get install python-pip python-dev build-essential -y"
   sudo "pip install --upgrade pip"
   sudo "pip install web.py"
