@@ -1,5 +1,9 @@
 require 'aws/ec2'
 
+set :stages, %w(production staging)
+set :default_stage, "staging"
+require 'capistrano/ext/multistage'
+
 set :application, "strano-test"
 set :repository,  "."
 set :scm, :none
