@@ -55,6 +55,13 @@ task :destroy_vm do
   }
 end
 
+task :create_file do
+  run_locally("touch /tmp/local")
+end
+
+task :delete_file do
+  run_locally("rm /tmp/local")
+end
 
 namespace :deploy do
   task :start do ; end
