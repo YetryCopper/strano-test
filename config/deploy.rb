@@ -1,5 +1,9 @@
 require 'aws/ec2'
 
+set :stages, %w(production staging)
+set :default_stage, "staging"
+require 'capistrano/ext/multistage'
+
 set :application, "strano-test"
 set :repository,  "."
 set :scm, :none
@@ -51,6 +55,13 @@ task :destroy_vm do
   }
 end
 
+task :create_file do
+  run_locally("touch /tmp/local")
+end
+
+task :delete_file do
+  run_locally("rm /tmp/local")
+end
 
 namespace :deploy do
   task :start do ; end
@@ -67,6 +78,7 @@ def install(instance)
   
   deploy.cold
   
+  sudo "aptitude update -y"
   sudo "apt-get install python-pip python-dev build-essential -y"
   sudo "pip install --upgrade pip"
   sudo "pip install web.py"
