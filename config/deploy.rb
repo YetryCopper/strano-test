@@ -1,5 +1,4 @@
 require 'aws/ec2'
-require 'fail/fail'
 
 set :stages, %w(production staging)
 set :default_stage, "staging"
